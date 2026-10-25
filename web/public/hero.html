@@ -1,0 +1,533 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>GuardRail AI — Hero</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet" />
+  <style>
+    :root {
+      --brand-green: #B9F754;
+      --brand-pink: #DCBEFF;
+      --bg: #060804;
+      --bg-elevated: #0a0d06;
+      --blob-center: #3d5c18;
+      --blob-mid: #2d4512;
+      --blob-edge: #0c1206;
+      --text-on-dark: #DCBEFF;
+      --text-muted: rgba(220, 190, 255, 0.55);
+      --text-on-light: #0a1204;
+      --border-subtle: rgba(220, 190, 255, 0.15);
+      --btn-glow: rgba(185, 247, 84, 0.25);
+      --nav-muted: rgba(220, 190, 255, 0.5);
+    }
+
+    *, *::before, *::after {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+    }
+
+    html {
+      scroll-behavior: smooth;
+    }
+
+    body {
+      font-family: 'Inter', -apple-system, BlinkMacSystemFont, sans-serif;
+      background: var(--bg);
+      color: var(--text-on-dark);
+      -webkit-font-smoothing: antialiased;
+      overflow-x: hidden;
+    }
+
+    a {
+      color: inherit;
+      text-decoration: none;
+    }
+
+    /* ─── NAVBAR ─── */
+    .nav {
+      position: fixed;
+      top: 0;
+      left: 0;
+      right: 0;
+      z-index: 100;
+      height: 60px;
+      padding: 0 2.5rem;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      background: transparent;
+    }
+
+    .nav-logo {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      flex-shrink: 0;
+    }
+
+    .nav-logo-icon {
+      width: 32px;
+      height: 32px;
+      border-radius: 8px;
+      background: var(--brand-green);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+    }
+
+    .nav-logo-icon span {
+      color: var(--brand-pink);
+      font-size: 18px;
+      font-weight: 700;
+      line-height: 1;
+    }
+
+    .nav-logo-text {
+      font-size: 17px;
+      font-weight: 600;
+      color: var(--brand-pink);
+      letter-spacing: -0.01em;
+    }
+
+    .nav-links {
+      display: flex;
+      align-items: center;
+      gap: 32px;
+      list-style: none;
+    }
+
+    .nav-links a {
+      font-size: 14px;
+      color: var(--nav-muted);
+      transition: color 0.2s ease;
+      display: inline-flex;
+      align-items: center;
+      gap: 4px;
+    }
+
+    .nav-links a:hover {
+      color: var(--brand-pink);
+    }
+
+    .nav-links .chevron {
+      font-size: 10px;
+      opacity: 0.7;
+      margin-left: 2px;
+    }
+
+    .nav-right {
+      display: flex;
+      align-items: center;
+      gap: 16px;
+      flex-shrink: 0;
+    }
+
+    .theme-toggle {
+      width: 36px;
+      height: 36px;
+      border: none;
+      background: transparent;
+      color: var(--nav-muted);
+      cursor: pointer;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      border-radius: 8px;
+      transition: color 0.2s ease;
+    }
+
+    .theme-toggle:hover {
+      color: var(--brand-pink);
+    }
+
+    .btn-trial {
+      font-size: 14px;
+      font-weight: 600;
+      color: var(--text-on-light);
+      background: var(--brand-pink);
+      border: none;
+      border-radius: 999px;
+      padding: 10px 22px;
+      cursor: pointer;
+      white-space: nowrap;
+      transition: opacity 0.2s ease;
+    }
+
+    .btn-trial:hover {
+      opacity: 0.9;
+    }
+
+    /* ─── HERO ─── */
+    .hero {
+      position: relative;
+      min-height: 100vh;
+      min-height: 100dvh;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      background: var(--bg-elevated);
+      overflow: hidden;
+    }
+
+    .hero-bg {
+      position: absolute;
+      inset: 0;
+      background: var(--bg);
+      z-index: 0;
+    }
+
+    .hero-noise {
+      position: absolute;
+      inset: 0;
+      z-index: 2;
+      pointer-events: none;
+      opacity: 0.035;
+      mix-blend-mode: overlay;
+      background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 512 512' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.75' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)'/%3E%3C/svg%3E");
+      background-repeat: repeat;
+      background-size: 256px 256px;
+    }
+
+    .hero-blob {
+      position: absolute;
+      top: 50%;
+      left: 50%;
+      transform: translate(-50%, -52%);
+      width: min(900px, 95vw);
+      height: min(600px, 70vh);
+      z-index: 1;
+      opacity: 0.9;
+      pointer-events: none;
+    }
+
+    .hero-content {
+      position: relative;
+      z-index: 10;
+      text-align: center;
+      padding: 80px 24px 220px;
+      max-width: 100%;
+    }
+
+    .hero h1 {
+      font-size: clamp(2.5rem, 7vw, 6rem);
+      font-weight: 800;
+      line-height: 1;
+      letter-spacing: -0.03em;
+      color: var(--brand-pink);
+      max-width: 900px;
+      margin: 0 auto;
+      opacity: 0;
+      transform: translateY(20px);
+      animation: fadeUp 0.7s ease forwards;
+    }
+
+    .hero-subtext {
+      font-size: clamp(15px, 2vw, 17px);
+      font-weight: 400;
+      line-height: 1.6;
+      color: var(--text-muted);
+      max-width: 560px;
+      margin: 20px auto 0;
+      opacity: 0;
+      transform: translateY(20px);
+      animation: fadeUp 0.7s ease 0.15s forwards;
+    }
+
+    .hero-ctas {
+      display: flex;
+      flex-wrap: wrap;
+      align-items: center;
+      justify-content: center;
+      gap: 12px;
+      margin-top: 32px;
+      opacity: 0;
+      transform: translateY(20px);
+      animation: fadeUp 0.7s ease 0.28s forwards;
+    }
+
+    .btn-primary {
+      display: inline-flex;
+      align-items: center;
+      gap: 6px;
+      font-size: 15px;
+      font-weight: 500;
+      color: var(--brand-pink);
+      padding: 14px 28px;
+      border-radius: 999px;
+      border: 1px solid rgba(185, 247, 84, 0.3);
+      background: linear-gradient(to right, rgba(185, 247, 84, 0.25), rgba(6, 8, 4, 0.8));
+      box-shadow: inset 0 0 30px var(--btn-glow);
+      cursor: pointer;
+      transition: border-color 0.2s ease, box-shadow 0.2s ease;
+      white-space: nowrap;
+    }
+
+    .btn-primary:hover {
+      border-color: rgba(185, 247, 84, 0.5);
+      box-shadow: inset 0 0 40px rgba(185, 247, 84, 0.35);
+    }
+
+    .btn-secondary {
+      display: inline-flex;
+      align-items: center;
+      font-size: 15px;
+      font-weight: 500;
+      color: var(--brand-pink);
+      padding: 14px 28px;
+      border-radius: 999px;
+      border: 1px solid rgba(220, 190, 255, 0.2);
+      background: rgba(220, 190, 255, 0.06);
+      cursor: pointer;
+      transition: border-color 0.2s ease, background 0.2s ease;
+      white-space: nowrap;
+    }
+
+    .btn-secondary:hover {
+      border-color: rgba(220, 190, 255, 0.4);
+      background: rgba(220, 190, 255, 0.1);
+    }
+
+    @keyframes fadeUp {
+      to {
+        opacity: 1;
+        transform: translateY(0);
+      }
+    }
+
+    /* ─── PEEK CARD ─── */
+    .peek-card {
+      position: absolute;
+      bottom: 0;
+      left: 50%;
+      transform: translateX(-50%);
+      width: 75%;
+      max-width: 1080px;
+      min-width: 280px;
+      height: 280px;
+      background: var(--brand-pink);
+      border-radius: 20px 20px 0 0;
+      box-shadow: 0 -20px 60px rgba(0, 0, 0, 0.5);
+      z-index: 20;
+      overflow: hidden;
+      padding: 24px 28px;
+    }
+
+    .peek-label {
+      font-size: 13px;
+      font-weight: 500;
+      color: rgba(10, 18, 4, 0.5);
+      margin-bottom: 16px;
+    }
+
+    .scan-line {
+      font-family: 'SF Mono', 'Fira Code', 'Consolas', monospace;
+      font-size: 13px;
+      line-height: 1.8;
+      color: var(--text-on-light);
+    }
+
+    .scan-line .critical {
+      color: #dc2626;
+      font-weight: 600;
+    }
+
+    .scan-line .high {
+      color: #ea580c;
+      font-weight: 600;
+    }
+
+    .scan-line .success {
+      color: var(--text-on-light);
+      font-weight: 600;
+    }
+
+    .peek-pills {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 8px;
+      margin-top: 20px;
+    }
+
+    .peek-pill {
+      font-size: 12px;
+      font-weight: 600;
+      color: var(--text-on-light);
+      background: var(--brand-green);
+      border: none;
+      border-radius: 999px;
+      padding: 5px 12px;
+    }
+
+    /* ─── RESPONSIVE ─── */
+    @media (max-width: 900px) {
+      .nav-links {
+        display: none;
+      }
+
+      .nav {
+        padding: 0 1.25rem;
+      }
+
+      .btn-trial {
+        padding: 8px 16px;
+        font-size: 13px;
+      }
+    }
+
+    @media (max-width: 480px) {
+      .hero-ctas {
+        flex-direction: column;
+        width: 100%;
+        max-width: 320px;
+        margin-left: auto;
+        margin-right: auto;
+      }
+
+      .btn-primary,
+      .btn-secondary {
+        width: 100%;
+        justify-content: center;
+      }
+
+      .peek-card {
+        width: 92%;
+        height: 240px;
+        padding: 18px 20px;
+      }
+
+      .scan-line {
+        font-size: 11px;
+      }
+
+      .theme-toggle {
+        display: none;
+      }
+    }
+  </style>
+</head>
+<body>
+
+  <!-- NAVBAR -->
+  <nav class="nav">
+    <a href="/" class="nav-logo">
+      <div class="nav-logo-icon">
+        <span>*</span>
+      </div>
+      <span class="nav-logo-text">GuardRail AI</span>
+    </a>
+
+    <ul class="nav-links">
+      <li><a href="#features">Features <span class="chevron">∨</span></a></li>
+      <li><a href="#integrations">Integrations <span class="chevron">∨</span></a></li>
+      <li><a href="#pricing">Pricing</a></li>
+      <li><a href="#docs">Docs <span class="chevron">∨</span></a></li>
+    </ul>
+
+    <div class="nav-right">
+      <button class="theme-toggle" aria-label="Toggle light mode" type="button">
+        <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+          <circle cx="12" cy="12" r="5"/>
+          <line x1="12" y1="1" x2="12" y2="3"/>
+          <line x1="12" y1="21" x2="12" y2="23"/>
+          <line x1="4.22" y1="4.22" x2="5.64" y2="5.64"/>
+          <line x1="18.36" y1="18.36" x2="19.78" y2="19.78"/>
+          <line x1="1" y1="12" x2="3" y2="12"/>
+          <line x1="21" y1="12" x2="23" y2="12"/>
+          <line x1="4.22" y1="19.78" x2="5.64" y2="18.36"/>
+          <line x1="18.36" y1="5.64" x2="19.78" y2="4.22"/>
+        </svg>
+      </button>
+      <a href="/scan" class="btn-trial">Start Free Trial</a>
+    </div>
+  </nav>
+
+  <!-- HERO -->
+  <section class="hero">
+    <div class="hero-bg"></div>
+
+    <!-- SVG organic blob -->
+    <svg class="hero-blob" viewBox="0 0 900 600" fill="none" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
+      <defs>
+        <radialGradient id="blobGrad" cx="50%" cy="45%" r="55%" fx="45%" fy="40%">
+          <stop offset="0%" stop-color="#3d5c18"/>
+          <stop offset="45%" stop-color="#2d4512"/>
+          <stop offset="75%" stop-color="#1a2a08"/>
+          <stop offset="100%" stop-color="#0c1206" stop-opacity="0"/>
+        </radialGradient>
+        <filter id="blobSoft" x="-20%" y="-20%" width="140%" height="140%">
+          <feGaussianBlur stdDeviation="8" result="blur"/>
+          <feMerge>
+            <feMergeNode in="blur"/>
+            <feMergeNode in="SourceGraphic"/>
+          </feMerge>
+        </filter>
+      </defs>
+      <path
+        filter="url(#blobSoft)"
+        d="M450,80
+           C560,60 680,100 740,180
+           C800,260 820,340 790,420
+           C760,500 680,560 580,580
+           C480,600 380,590 300,540
+           C220,490 160,410 130,320
+           C100,230 120,150 190,90
+           C260,30 340,10 420,20
+           C430,22 440,50 450,80
+           Z
+           M380,200
+           C420,170 480,180 510,230
+           C540,280 520,340 470,370
+           C420,400 350,380 330,330
+           C310,280 340,230 380,200
+           Z"
+        fill="url(#blobGrad)"
+      />
+      <path
+        d="M520,280
+           C580,250 650,280 680,340
+           C710,400 670,470 590,490
+           C510,510 440,470 420,400
+           C400,330 460,310 520,280
+           Z"
+        fill="#1a2808"
+        opacity="0.5"
+      />
+    </svg>
+
+    <div class="hero-noise"></div>
+
+    <div class="hero-content">
+      <h1>Your Code's Security Brain.</h1>
+      <p class="hero-subtext">
+        Your team ships 30% of PRs with security vulnerabilities they never see.
+        GuardRail scans your code, patches it instantly, and blocks unsafe
+        commits — all inside VS Code and GitHub.
+      </p>
+      <div class="hero-ctas">
+        <a href="#" class="btn-primary">Install VS Code Extension →</a>
+        <a href="#" class="btn-secondary">Star on GitHub</a>
+      </div>
+    </div>
+
+    <!-- Peek card -->
+    <div class="peek-card">
+      <p class="peek-label">Security Scan Results</p>
+      <div class="scan-line">
+        <div><span class="critical">[CRITICAL]</span> SQL Injection — auth/login.js:42</div>
+        <div><span class="high">[HIGH]</span> Hardcoded JWT secret — config/env.js:8</div>
+        <div class="success">✓ 2 patches generated</div>
+      </div>
+      <div class="peek-pills">
+        <span class="peek-pill">auth/login.js</span>
+        <span class="peek-pill">config/env.js</span>
+      </div>
+    </div>
+  </section>
+
+</body>
+</html>

@@ -1,0 +1,17 @@
+node_modules/
+.env
+.aws/
+*.log
+.DS_Store
+dist/
+coverage/
+.vscode/
+*.swp
+*.swo
+.kiro/
+.amazonq/
+web/.next/
+frontend/node_modules/
+.local-migration-backup/
+api/data/local/
+api/data/
